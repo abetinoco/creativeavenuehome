@@ -11,12 +11,17 @@
 <meta property="og:title" content="Orlando Web Design & Development — Creative Avenue" />
 <meta property="og:description" content="Custom-coded websites for businesses that refuse to look like everyone else. Built to rank and convert." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://creativeavenuegroup.com" />
+<meta property="og:url" content="https://creativeave.vercel.app/" />
 <meta property="og:image" content="https://creativeave.vercel.app/og.png" />
 <meta property="og:image:width" content="1734" />
 <meta property="og:image:height" content="907" />
+<meta property="og:image:alt" content="Creative Avenue — Orlando web design & development" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Orlando Web Design & Development — Creative Avenue" />
+<meta name="twitter:description" content="Custom-coded websites for businesses that refuse to look like everyone else. Built to rank and convert." />
+<meta name="twitter:image" content="https://creativeave.vercel.app/og.png" />
 <link rel="icon" type="image/png" href="/favicon.png" />
-<link rel="canonical" href="https://creativeavenuegroup.com/" />
+<link rel="canonical" href="https://creativeave.vercel.app/" />
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&amp;f[]=general-sans@400,500,600,700&amp;display=swap" rel="stylesheet" />
 <style>
@@ -213,9 +218,118 @@
     *{animation-duration:.001s!important;animation-delay:0s!important}
     h1 .line span{transform:none}.reveal{opacity:1;transform:none}
   }
+
+  /* ---------- preloader ---------- */
+  #cv-preloader{position:fixed;inset:0;z-index:9999;background:#f4ede1;
+    display:grid;place-items:center;overflow:hidden;
+    transition:transform .85s var(--ease),opacity .55s ease;will-change:transform,opacity;
+    animation:cvSafetyHide 0s linear 6s forwards}
+  #cv-preloader.cv-done{transform:translateY(-101%);opacity:0;pointer-events:none}
+  @keyframes cvSafetyHide{to{opacity:0;transform:translateY(-101%);pointer-events:none}}
+  .cv-pre-bg{position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(46% 38% at 50% -6%, rgba(255,198,43,.22), transparent 70%),
+      radial-gradient(42% 40% at 86% 10%, rgba(33,71,194,.10), transparent 70%),
+      radial-gradient(48% 50% at 8% 92%, rgba(33,71,194,.08), transparent 70%)}
+  .cv-pre-stage{position:relative;text-align:center;padding:0 22px}
+  .cv-pre-word{font-family:var(--display);font-weight:700;letter-spacing:-.02em;
+    font-size:clamp(54px,11vw,128px);line-height:.96;display:block;overflow:hidden;padding:0 .06em .04em}
+  .cv-pre-word.w1{color:var(--blue)}
+  .cv-pre-word.w2{color:var(--blue-2)}
+  .cv-pre-word>span{display:inline-block;transform:translateY(110%);
+    animation:cvRise .9s var(--ease) forwards}
+  .cv-pre-word.w1>span{animation-delay:.06s}
+  .cv-pre-word.w2>span{animation-delay:.22s}
+  @keyframes cvRise{to{transform:translateY(0)}}
+  .cv-pre-bar{position:relative;height:2px;width:min(420px,72vw);margin:30px auto 0;
+    background:rgba(22,48,107,.12);border-radius:2px;overflow:hidden}
+  .cv-pre-bar i{position:absolute;inset:0;background:var(--yellow);transform-origin:left;
+    transform:scaleX(0);animation:cvFill 1.6s var(--ease) .25s forwards}
+  @keyframes cvFill{to{transform:scaleX(1)}}
+  .cv-pre-tag{margin-top:16px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--muted-2);opacity:0;animation:cvFade .6s var(--ease) .45s forwards}
+  @keyframes cvFade{to{opacity:1}}
+
+  /* ---------- scroll progress ---------- */
+  #cv-scrollbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:300;pointer-events:none;
+    background:rgba(22,48,107,.06)}
+  #cv-scrollbar i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);
+    background:linear-gradient(90deg,var(--blue) 0%,var(--blue-2) 55%,var(--yellow) 100%);
+    will-change:transform;transition:transform .12s linear}
+
+  /* ---------- custom cursor (desktop only, JS-gated) ---------- */
+  @media (hover:hover) and (pointer:fine){
+    body.cv-cursor-on{cursor:none}
+    body.cv-cursor-on input,body.cv-cursor-on textarea{cursor:text}
+    .cv-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:10000;
+      transform:translate3d(-100px,-100px,0);will-change:transform;mix-blend-mode:multiply}
+    .cv-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid var(--blue);
+      border-radius:50%;
+      transition:width .25s var(--ease),height .25s var(--ease),margin .25s var(--ease),
+        background .25s,border-color .25s,opacity .25s}
+    .cv-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--blue);border-radius:50%;
+      transition:opacity .25s,background .25s}
+    body[data-cv-hover="1"] .cv-ring{width:58px;height:58px;margin:-29px 0 0 -29px;
+      background:rgba(33,71,194,.10);border-color:var(--blue-2)}
+    body[data-cv-hover="1"] .cv-dot{opacity:0}
+  }
+
+  /* ---------- sticky CTAs ---------- */
+  .cv-sticky{position:fixed;right:18px;bottom:18px;z-index:240;
+    display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+  .cv-fab{display:inline-flex;align-items:center;gap:10px;padding:13px 18px;
+    font-family:var(--body);font-size:14px;font-weight:600;letter-spacing:.01em;
+    color:#f7f2e7;background:var(--blue);border:1px solid var(--blue);border-radius:100px;
+    text-decoration:none;box-shadow:0 10px 24px rgba(22,48,107,.22);
+    transition:transform .25s var(--ease),box-shadow .3s,background .3s,color .3s,border-color .3s,opacity .3s}
+  .cv-fab:hover{transform:translateY(-2px);background:var(--blue-2);box-shadow:0 16px 30px rgba(33,71,194,.28)}
+  .cv-fab svg{width:16px;height:16px;flex:0 0 16px}
+  .cv-fab.cv-ghost{background:#fffdf6;color:var(--blue);border-color:rgba(22,48,107,.18)}
+  .cv-fab.cv-ghost:hover{background:#fff;color:var(--blue-2);border-color:var(--blue-2)}
+  .cv-fab.cv-top{padding:13px;border-radius:50%;opacity:0;pointer-events:none;transform:translateY(8px)}
+  .cv-fab.cv-top.cv-show{opacity:1;pointer-events:auto;transform:none}
+  @media (max-width:760px){
+    .cv-sticky{right:12px;bottom:12px;gap:8px}
+    .cv-fab{padding:12px;border-radius:50%}
+    .cv-fab .cv-lbl{display:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .cv-pre-word>span{animation:none;transform:none}
+    .cv-pre-bar i{animation:none;transform:scaleX(1)}
+    .cv-pre-tag{animation:none;opacity:1}
+    .cv-cursor{display:none}
+    #cv-scrollbar i{transition:none}
+  }
 </style>
 </head>
 <body>
+<div id="cv-preloader" role="status" aria-label="Loading">
+  <div class="cv-pre-bg" aria-hidden="true"></div>
+  <div class="cv-pre-stage">
+    <span class="cv-pre-word w1"><span>creative</span></span>
+    <span class="cv-pre-word w2"><span>avenue</span></span>
+    <div class="cv-pre-bar"><i></i></div>
+    <div class="cv-pre-tag">loading the experience</div>
+  </div>
+</div>
+<noscript><style>#cv-preloader{display:none!important}</style></noscript>
+<div id="cv-scrollbar" aria-hidden="true"><i></i></div>
+<div class="cv-cursor cv-ring" aria-hidden="true"></div>
+<div class="cv-cursor cv-dot" aria-hidden="true"></div>
+<aside class="cv-sticky" aria-label="Quick actions">
+  <a class="cv-fab cv-ghost" href="tel:+14074340378" aria-label="Call (407) 434-0378">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+    <span class="cv-lbl">Call</span>
+  </a>
+  <a class="cv-fab" href="#talk" aria-label="Start a project">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <span class="cv-lbl">Start a project</span>
+  </a>
+  <button class="cv-fab cv-top" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+</aside>
   <div class="bg" aria-hidden="true"><div class="wash"></div><div class="grid"></div></div>
   <div class="grain" aria-hidden="true"></div>
 
@@ -433,6 +547,91 @@
     form.style.display='none';
     success.classList.add('show');
   });
+</script>
+<script>
+(function(){
+  var pre=document.getElementById('cv-preloader');
+  if(pre){
+    var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var MIN=reduced?0:900, start=Date.now();
+    function dismiss(){
+      var wait=Math.max(0,MIN-(Date.now()-start));
+      setTimeout(function(){
+        pre.classList.add('cv-done');
+        setTimeout(function(){if(pre.parentNode)pre.parentNode.removeChild(pre);},1000);
+      },wait);
+    }
+    if(document.readyState==='complete'){dismiss();}
+    else{window.addEventListener('load',dismiss,{once:true});}
+    setTimeout(function(){if(!pre.classList.contains('cv-done'))dismiss();},5000);
+  }
+
+  var sb=document.getElementById('cv-scrollbar');
+  if(sb){
+    var bar=sb.querySelector('i'),ticking=false;
+    function update(){
+      var h=document.documentElement;
+      var max=(h.scrollHeight-h.clientHeight)||1;
+      var p=Math.min(1,Math.max(0,(window.scrollY||h.scrollTop)/max));
+      bar.style.transform='scaleX('+p+')';
+      ticking=false;
+    }
+    window.addEventListener('scroll',function(){
+      if(!ticking){requestAnimationFrame(update);ticking=true;}
+    },{passive:true});
+    window.addEventListener('resize',update,{passive:true});
+    update();
+  }
+
+  var canHover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var reducedM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(canHover && !reducedM){
+    var ring=document.querySelector('.cv-cursor.cv-ring');
+    var dot=document.querySelector('.cv-cursor.cv-dot');
+    if(ring && dot){
+      document.body.classList.add('cv-cursor-on');
+      var mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my,seeded=false;
+      document.addEventListener('mousemove',function(e){
+        mx=e.clientX;my=e.clientY;
+        dot.style.transform='translate3d('+mx+'px,'+my+'px,0)';
+        if(!seeded){rx=mx;ry=my;ring.style.transform='translate3d('+mx+'px,'+my+'px,0)';seeded=true;}
+      },{passive:true});
+      (function loop(){
+        rx+=(mx-rx)*.18;ry+=(my-ry)*.18;
+        ring.style.transform='translate3d('+rx+'px,'+ry+'px,0)';
+        requestAnimationFrame(loop);
+      })();
+      var sel='a,button,input,textarea,select,label,[role="button"],.btn,.faq-item,.card';
+      document.addEventListener('mouseover',function(e){
+        if(e.target.closest && e.target.closest(sel)){
+          document.body.setAttribute('data-cv-hover','1');
+        }
+      });
+      document.addEventListener('mouseout',function(e){
+        if(e.target.closest && e.target.closest(sel)){
+          document.body.removeAttribute('data-cv-hover');
+        }
+      });
+      document.documentElement.addEventListener('mouseleave',function(){
+        ring.style.opacity='0';dot.style.opacity='0';
+      });
+      document.documentElement.addEventListener('mouseenter',function(){
+        ring.style.opacity='1';dot.style.opacity='1';
+      });
+    }
+  }
+
+  var topBtn=document.querySelector('.cv-fab.cv-top');
+  if(topBtn){
+    topBtn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+    function toggleTop(){
+      if((window.scrollY||document.documentElement.scrollTop)>540) topBtn.classList.add('cv-show');
+      else topBtn.classList.remove('cv-show');
+    }
+    window.addEventListener('scroll',toggleTop,{passive:true});
+    toggleTop();
+  }
+})();
 </script>
 </body>
 </html>
