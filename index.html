@@ -261,8 +261,8 @@
   @media (hover:hover) and (pointer:fine){
     body.cv-cursor-on{cursor:none}
     body.cv-cursor-on input,body.cv-cursor-on textarea{cursor:text}
-    .cv-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:10000;
-      transform:translate3d(-100px,-100px,0);will-change:transform;mix-blend-mode:multiply}
+    .cv-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9000;opacity:0;
+      transform:translate3d(-200px,-200px,0);will-change:transform,opacity;mix-blend-mode:multiply}
     .cv-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid var(--blue);
       border-radius:50%;
       transition:width .25s var(--ease),height .25s var(--ease),margin .25s var(--ease),
@@ -589,18 +589,24 @@
     var ring=document.querySelector('.cv-cursor.cv-ring');
     var dot=document.querySelector('.cv-cursor.cv-dot');
     if(ring && dot){
-      document.body.classList.add('cv-cursor-on');
-      var mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my,seeded=false;
-      document.addEventListener('mousemove',function(e){
-        mx=e.clientX;my=e.clientY;
-        dot.style.transform='translate3d('+mx+'px,'+my+'px,0)';
-        if(!seeded){rx=mx;ry=my;ring.style.transform='translate3d('+mx+'px,'+my+'px,0)';seeded=true;}
-      },{passive:true});
-      (function loop(){
+      var mx=-200,my=-200,rx=mx,ry=my,seeded=false;
+      function loop(){
         rx+=(mx-rx)*.18;ry+=(my-ry)*.18;
         ring.style.transform='translate3d('+rx+'px,'+ry+'px,0)';
         requestAnimationFrame(loop);
-      })();
+      }
+      document.addEventListener('mousemove',function(e){
+        mx=e.clientX;my=e.clientY;
+        dot.style.transform='translate3d('+mx+'px,'+my+'px,0)';
+        if(!seeded){
+          rx=mx;ry=my;
+          ring.style.transform='translate3d('+mx+'px,'+my+'px,0)';
+          ring.style.opacity='1';dot.style.opacity='1';
+          document.body.classList.add('cv-cursor-on');
+          seeded=true;
+          requestAnimationFrame(loop);
+        }
+      },{passive:true});
       var sel='a,button,input,textarea,select,label,[role="button"],.btn,.faq-item,.card';
       document.addEventListener('mouseover',function(e){
         if(e.target.closest && e.target.closest(sel)){
